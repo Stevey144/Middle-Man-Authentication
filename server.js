@@ -31,9 +31,10 @@ app.use(express.static('public'));
 
 
 
-// Enable CORS for all routes
-app.use(cors());
-
+app.use(cors({
+  origin: 'https://middle-man-authenticator-a3e8e4fa764e.herokuapp.com',
+  credentials: true, // Include if using cookies or other credentials
+}));
 // Middleware for parsing JSON requests
 app.use(express.json());
 
