@@ -7,7 +7,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { BrowserRouter } from 'react-router-dom'
 
 const client = new ApolloClient({
-  uri: 'https://authenticator-app-0a7e24fa7e1c.herokuapp.com', // Replace with your server URL
+  uri: 'https://middle-man-authenticator-a3e8e4fa764e.herokuapp.com', // Replace with your server URL
   cache: new InMemoryCache(),
 });
 
