@@ -131,7 +131,7 @@ const root = {
        const user = new UserModel({ username, email, password: hashedPassword });
       await user.save();
 
-      const token = jwt.sign({ username, email }, JWT_SECRET, { expiresIn: '1h' });
+      const token = jwt.sign({ username, email }, JWT_SECRET, { expiresIn: '4h' });
 
       return { token, user };
     } catch (error) {
@@ -140,47 +140,54 @@ const root = {
   },
   login: async ({ username, password }) => {
     try {
+      // Find the user by username
       const user = await UserModel.findOne({ username });
+  
+      // Check if the user exists
       if (!user) {
-        throw new Error('Invalid credentials');
+        throw new Error('Invalid username');
       }
-
+  
+      // Check if the user is locked out
       if (user.locked && user.lockoutExpires && new Date(user.lockoutExpires) > new Date()) {
         throw new Error(`Account locked. Please try again after ${user.lockoutExpires}`);
       }
-
-    // Compare the provided password with the hashed password in the database
-     const passwordMatch = await bcrypt.compare(password, user.password);
-
-     if (!passwordMatch) {
-      user.loginAttempts += 1;
-
-      if (user.loginAttempts >= 5) {
-        user.locked = true;
-        user.lockoutExpires = new Date(Date.now() + (60 * 60 * 1000)).toISOString(); // Lockout for 1 hour
+  
+      // Compare the provided password with the hashed password in the database
+      const passwordMatch = await bcrypt.compare(password, user.password);
+  
+      // If passwords do not match, handle login attempts and lockout logic
+      if (!passwordMatch) {
+        user.loginAttempts += 1;
+  
+        if (user.loginAttempts >= 5) {
+          user.locked = true;
+          user.lockoutExpires = new Date(Date.now() + (60 * 60 * 1000)).toISOString(); // Lockout for 1 hour
+          await user.save();
+          throw new Error(`Account locked due to multiple failed login attempts. Please try again after ${user.lockoutExpires}`);
+        }
+  
         await user.save();
-        throw new Error(`Account locked due to multiple failed login attempts. Please try again after ${user.lockoutExpires}`);
+  
+        throw new Error('Invalid password');
       }
-
-      await user.save();
-
-      throw new Error('password not a match !');
-    }
-
+  
       // Reset loginAttempts on successful login
       user.loginAttempts = 0;
       user.locked = false;
       user.lockoutExpires = null;
       await user.save();
-
+  
+      // Create and return a JWT token on successful login
       const token = jwt.sign({ username, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
-
+  
       return { token, user };
-
     } catch (error) {
+      console.error('Login failed:', error.message);
       throw new Error(`Login failed: ${error.message}`);
     }
   },
+  
 };
 
 app.use(
