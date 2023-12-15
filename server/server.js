@@ -6,7 +6,7 @@ const { buildSchema } = require('graphql');
 const path = require('path'); 
 const jwt = require('jsonwebtoken');
 const cors = require('cors'); 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
