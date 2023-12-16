@@ -52,7 +52,7 @@ const AuthForms = () => {
        
       const { token, user } = response.data.register;
       localStorage.setItem('token', token);
-      alert("user Registered successfully !, Sign in using the link Below");
+      alert("user Registered successfully ! Sign in using the link Below");
       console.log('User registered successfully!', user);
     } catch (error) {
       setError(error.message);
