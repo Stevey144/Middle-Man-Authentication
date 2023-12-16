@@ -31,10 +31,9 @@ app.use(express.static('public'));
 
 
 
-app.use(cors({
-  origin: 'https://middle-man-authenticator-a3e8e4fa764e.herokuapp.com',
-  credentials: true, // Include if using cookies or other credentials
-}));
+// Enable CORS for all routes
+app.use(cors());
+
 // Middleware for parsing JSON requests
 app.use(express.json());
 
@@ -157,10 +156,6 @@ const root = {
       // Compare the provided password with the hashed password in the database
       const passwordMatch = await bcrypt.compare(password, user.password);
 
-      if (passwordMatch) {
-        alert('Password is a match!'); // Replace with your preferred alert or notification method
-      }
-  
       // If passwords do not match, handle login attempts and lockout logic
       if (!passwordMatch) {
         user.loginAttempts += 1;
