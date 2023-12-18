@@ -158,23 +158,26 @@ const root = {
 
       console.log(password);
       console.log(user.password);
+      
+
+
 
       // If passwords do not match, handle login attempts and lockout logic
-      if (!passwordMatch) {
+      // if (!passwordMatch) {
 
-        user.loginAttempts += 1;
+      //   user.loginAttempts += 1;
   
-        if (user.loginAttempts >= 5) {
-          user.locked = true;
-          user.lockoutExpires = new Date(Date.now() + (60 * 60 * 1000)).toISOString(); // Lockout for 1 hour
-          await user.save();
-          throw new Error(`Account locked due to multiple failed login attempts. Please try again after ${user.lockoutExpires}`);
-        }
+      //   if (user.loginAttempts >= 5) {
+      //     user.locked = true;
+      //     user.lockoutExpires = new Date(Date.now() + (60 * 60 * 1000)).toISOString(); // Lockout for 1 hour
+      //     await user.save();
+      //     throw new Error(`Account locked due to multiple failed login attempts. Please try again after ${user.lockoutExpires}`);
+      //   }
   
-        await user.save();
+      //   await user.save();
   
-        throw new Error('Invalid password');
-      }
+      //   throw new Error('Invalid password');
+      // }
   
       // Reset loginAttempts on successful login
       user.loginAttempts = 0;
