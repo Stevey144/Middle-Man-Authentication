@@ -39,7 +39,8 @@ const SignInForm = () => {
   };
     
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+     e.preventDefault();
     handleOpen();
       const response = await login({
         variables: { username, password },
