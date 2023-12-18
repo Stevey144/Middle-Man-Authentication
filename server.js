@@ -28,6 +28,9 @@ app.get('/favicon.ico', (req, res) => {
 
 app.use(express.static('public'));
 
+
+
+
 // Enable CORS for all routes
 app.use(cors());
 
@@ -149,16 +152,12 @@ const root = {
       if (user.locked && user.lockoutExpires && new Date(user.lockoutExpires) > new Date()) {
         throw new Error(`Account locked. Please try again after ${user.lockoutExpires}`);
       }
-
-      const saltRounds = 10;
-      const hashedPassword = await bcrypt.hash(password, saltRounds);
   
-      
       // Compare the provided password with the hashed password in the database
-      // const passwordMatch = await bcrypt.compare(password, user.password);
+      const passwordMatch = await bcrypt.compare(password, user.password);
 
       // If passwords do not match, handle login attempts and lockout logic
-      if (hashedPassword !== user.password) {
+      if (!passwordMatch) {
         user.loginAttempts += 1;
   
         if (user.loginAttempts >= 5) {
@@ -173,7 +172,7 @@ const root = {
         throw new Error('Invalid password');
       }
   
-      //Reset loginAttempts on successful login
+      // Reset loginAttempts on successful login
       user.loginAttempts = 0;
       user.locked = false;
       user.lockoutExpires = null;

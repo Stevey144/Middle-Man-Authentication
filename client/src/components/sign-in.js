@@ -41,8 +41,6 @@ const SignInForm = () => {
 
   const handleLogin = async () => {
     handleOpen();
-    try {
-      setError(null);
       const response = await login({
         variables: { username, password },
       });
@@ -54,17 +52,12 @@ const SignInForm = () => {
       alert("login Successful");
       window.location.replace('/dashboard');
       console.log('User logged in successfully!', user);
-    } catch (error) {
-      setError(error.message);
-      console.error('Login failed', error.message);
-      alert("login failed " + error.message );
-    }
   };
 
   return (
     <div className="sign-in-container">
        <h2>Already have an account?</h2>
-       <span>sign in with your username and password</span>
+       <span>sign in with your email and password</span>
       {error && <p style={{ color: 'red' }}>{error}</p>}
     <form>
       <FormInput
