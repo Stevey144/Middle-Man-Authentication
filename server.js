@@ -156,8 +156,12 @@ const root = {
       // Compare the provided password with the hashed password in the database
       const passwordMatch = await bcrypt.compare(password, user.password);
 
+      console.log(password);
+      console.log(user.password);
+
       // If passwords do not match, handle login attempts and lockout logic
       if (!passwordMatch) {
+
         user.loginAttempts += 1;
   
         if (user.loginAttempts >= 5) {
