@@ -58,7 +58,7 @@ const SignInForm = () => {
   return (
     <div className="sign-in-container">
        <h2>Already have an account?</h2>
-       <span>sign in with your email and password</span>
+       <span>sign in with your username and password</span>
       {error && <p style={{ color: 'red' }}>{error}</p>}
     <form>
       <FormInput
