@@ -7,6 +7,7 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const cors = require('cors'); 
 const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -47,6 +48,15 @@ app.use((err, req, res, next) => {
 // MongoDB connection
 const uri = process.env.MONGODB;
 const JWT_SECRET =  process.env.JWT_SECRET;
+
+// Create a Nodemailer transporter
+const transporter = nodemailer.createTransport({
+  service: process.env.EMAIL_SERVICE,
+  auth: {
+    user: process.env.EMAIL_USERNAME,
+    pass: process.env.EMAIL_PASSWORD,
+  },
+});
 
 
 // MongoDB connection
@@ -180,6 +190,16 @@ const root = {
   
       // Create and return a JWT token on successful login
       const token = jwt.sign({ username, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
+
+        // Send email notification
+        const emailOptions = {
+          from: process.env.EMAIL_USERNAME,
+          to: user.email,
+          subject: 'Successful Login Notification',
+          text: `Dear ${user.username},\n\nYou have successfully logged in at ${new Date()}.`,
+        };
+  
+        await transporter.sendMail(emailOptions);
   
       return { token, user };
     } catch (error) {
