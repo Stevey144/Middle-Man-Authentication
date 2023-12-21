@@ -5,6 +5,8 @@ import React, { useEffect, useState } from 'react';
 import './dashboard.styles.scss';
 import Button from './button/button.component';
 import { redirect } from 'react-router-dom';
+import isAuthenticated from './AuthService';
+
 
 
 const Dashboard = () => {
@@ -14,6 +16,11 @@ const Dashboard = () => {
     // Retrieve user details from localStorage
     const storedUser = localStorage.getItem('user');
 
+    if (!isAuthenticated()) {
+      // User is not authenticated, redirect to the sign-in page
+      window.location.replace('sign-in');
+   
+    }
     // Check if user details are available
     if (storedUser) {
       // Parse the JSON string to get the user object
