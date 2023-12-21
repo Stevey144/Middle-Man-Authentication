@@ -72,7 +72,7 @@ const SignInForm = () => {
       } catch (error) {
         setError(error.message);
         console.error('Login failed', error.message);
-        alert("login failed " + error.message );
+        alert(error.message);
       }
   };
 
