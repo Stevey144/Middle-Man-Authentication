@@ -30,6 +30,7 @@ const Dashboard = () => {
   }, []);
 
   const handleLogOut = async () => {
+       localStorage.clear();
        window.location.replace('sign-in');
   };
 
