@@ -41,18 +41,39 @@ const SignInForm = () => {
 
   const handleLogin = async (e) => {
      e.preventDefault();
-    handleOpen();
-      const response = await login({
-        variables: { username, password },
-      });
 
-      handleClose();
-      const { token, user } = response.data.login;
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user)); // Store user details as JSON string
-      alert("login Successful");
-      window.location.replace('/dashboard');
-      console.log('User logged in successfully!', user);
+    // handleOpen();
+    //   const response = await login({
+    //     variables: { username, password },
+    //   });
+
+    //   handleClose();
+    //   const { token, user } = response.data.login;
+    //   localStorage.setItem('token', token);
+    //   localStorage.setItem('user', JSON.stringify(user)); // Store user details as JSON string
+    //   alert("login Successful");
+    //   window.location.replace('/dashboard');
+    //   console.log('User logged in successfully!', user);
+
+      handleOpen();
+      try {
+        setError(null);
+        const response = await login({
+          variables: { username, password },
+        });
+  
+        handleClose();
+        const { token, user } = response.data.login;
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user)); // Store user details as JSON string
+        alert("login Successful");
+        window.location.replace('/dashboard');
+        console.log('User logged in successfully!', user);
+      } catch (error) {
+        setError(error.message);
+        console.error('Login failed', error.message);
+        alert("login failed " + error.message );
+      }
   };
 
   return (

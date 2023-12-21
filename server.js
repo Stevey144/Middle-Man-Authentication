@@ -169,7 +169,9 @@ const root = {
       // If passwords do not match, handle login attempts and lockout logic
       if (!passwordMatch) {
         user.loginAttempts += 1;
-  
+        
+        throw new Error('Invalid password');
+      
         if (user.loginAttempts >= 5) {
           user.locked = true;
           user.lockoutExpires = new Date(Date.now() + (60 * 60 * 1000)).toISOString(); // Lockout for 1 hour
