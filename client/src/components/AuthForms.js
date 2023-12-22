@@ -55,7 +55,9 @@ const AuthForms = () => {
       alert("user Registered successfully ! Sign in using the link Below");
       console.log('User registered successfully!', user);
     } catch (error) {
+      alert(error.message);
       setError(error.message);
+      handleClose();
       console.error('Registration failed', error.message);
     }
   };
