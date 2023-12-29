@@ -11,9 +11,7 @@ const nodemailer = require('nodemailer');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-
 app.use(express.static(path.resolve(__dirname, 'client/build')));
-
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'client/build', 'index.html'));
