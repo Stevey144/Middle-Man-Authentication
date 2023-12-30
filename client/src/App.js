@@ -1,5 +1,5 @@
 import React from 'react';
-import AuthForms from './components/AuthForms';
+import RegisterUser from './components/RegisterUser';
 import ReactDOM from "react-dom/client";
 import {Routes, Route } from "react-router-dom";
 import SignInForm from './components/sign-in';
@@ -9,9 +9,9 @@ function App() {
   return (
     <div className="App">
       <Routes>
-          <Route path="/" element={<AuthForms />} />
+          <Route path="/" element={<RegisterUser />} />
           <Route path="sign-In" element={<SignInForm />} />
-          <Route path="sign-up" element={<AuthForms />} />
+          <Route path="sign-up" element={<RegisterUser />} />
           {/* <Route path="/dashboard" component={Dashboard}  /> */}
           <Route path="dashboard" element={<Dashboard />} />
 

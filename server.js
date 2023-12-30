@@ -10,6 +10,8 @@ const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const app = express();
 const PORT = process.env.PORT || 3001;
+const speakeasy = require('speakeasy');
+const qrcode = require('qrcode');
 
 app.use(express.static(path.resolve(__dirname, 'client/build')));
 
@@ -47,7 +49,7 @@ app.use((err, req, res, next) => {
 const uri = process.env.MONGODB;
 const JWT_SECRET =  process.env.JWT_SECRET;
 
-// Create a Nodemailer transporter
+//Create a Nodemailer transporter
 const transporter = nodemailer.createTransport({
   service: process.env.EMAIL_SERVICE,
   auth: {
@@ -76,6 +78,7 @@ const userSchema = new mongoose.Schema({
     default: false,
   },
   lockoutExpires: Date,
+  totpSecret: String,
 });
 
 const UserModel = mongoose.model('User', userSchema);
@@ -89,21 +92,35 @@ const schema = buildSchema(`
     loginAttempts: Int
     locked: Boolean
     lockoutExpires: String
+    totpSecret: String
   }
 
   type Query {
     user(id: ID!): User
+    getUserInfo(username: String!): User 
   }
 
   type Mutation {
     register(username: String!, email: String!, password: String!, confirmPassword: String!): AuthPayload
-    login(username: String!, password: String!): AuthPayload
+    login(username: String!, password: String!, code: String): AuthPayload
+    enableTwoFactorAuth: EnableTwoFactorAuthResponse
+    verifyTwoFactorAuth(code: String!): VerifyTwoFactorAuthResponse
   }
 
   type AuthPayload {
     token: String
     user: User
   }
+
+  type EnableTwoFactorAuthResponse {
+    qrCode: String
+  }
+
+  type VerifyTwoFactorAuthResponse {
+    token: String
+    user: User
+  }
+
 `);
 
 const root = {
@@ -137,16 +154,32 @@ const root = {
        const hashedPassword = await bcrypt.hash(password, saltRounds);
 
        const user = new UserModel({ username, email, password: hashedPassword });
+
+        // Generate TOTP secret and store it
+      const totpSecret = speakeasy.generateSecret({ length: 20, name: 'Middle-Man' });
+
+        // Generate TOTP URL for QR code
+        const totpUri = speakeasy.otpauthURL({
+          secret: totpSecret.ascii,
+          label: 'Middle-Man:' + username,
+          issuer: 'Middle-Man',
+        });
+
+         // Generate QR code for TOTP
+      const qrCode = await qrcode.toDataURL(totpUri);
+
+
+      user.totpSecret = totpSecret.base32;
       await user.save();
 
       const token = jwt.sign({ username, email }, JWT_SECRET, { expiresIn: '4h' });
 
-      return { token, user };
+      return { token, user, qrCode };
     } catch (error) {
       throw new Error(`Registration failed: ${error.message}`);
     }
   },
-  login: async ({ username, password }) => {
+  login: async ({ username, password, code }) => {
     try {
       // Find the user by username
       const user = await UserModel.findOne({ username });
@@ -178,6 +211,21 @@ const root = {
   
         throw new Error('Invalid password');
       }
+
+
+      if (user.totpSecret) {
+        const verification = speakeasy.totp.verify({
+          secret: user.totpSecret,
+          encoding: 'base32',
+          token: code,
+        });
+
+        if (!verification) {
+          throw new Error('Invalid TOTP code');
+        }
+      }
+
+
   
       // Reset loginAttempts on successful login
       user.loginAttempts = 0;
@@ -198,11 +246,63 @@ const root = {
   
         await transporter.sendMail(emailOptions);
   
-      return { token, user };
+      return { token, user, code };
     } catch (error) {
       console.error('Login failed:', error.message);
       throw new Error(`Login failed: ${error.message}`);
     }
+  },
+
+  enableTwoFactorAuth: async ({}, context) => {
+    const user = context.user; // Assuming you have a middleware to authenticate the user
+    if (!user) {
+      throw new Error('User not authenticated');
+    }
+
+    if (user.totpSecret) {
+      throw new Error('Two-factor authentication is already enabled');
+    }
+
+    const totpSecret = speakeasy.generateSecret({ length: 20, name: 'Middle-Man' });
+    const totpUri = speakeasy.otpauthURL({
+      secret: totpSecret.ascii,
+      label: `Middle-Man:${user.username}`,
+      issuer: 'Middle-Man',
+    });
+
+    const qrCode = await qrcode.toDataURL(totpUri);
+
+    user.totpSecret = totpSecret.base32;
+    await user.save();
+
+    return { qrCode };
+  },
+
+
+
+  verifyTwoFactorAuth: async ({ code }, context) => {
+    const user = context.user;
+    if (!user) {
+      throw new Error('User not authenticated');
+    }
+
+    if (!user.totpSecret) {
+      throw new Error('Two-factor authentication is not enabled');
+    }
+
+    const verification = speakeasy.totp.verify({
+      secret: user.totpSecret,
+      encoding: 'base32',
+      token: code,
+    });
+
+    if (!verification) {
+      throw new Error('Invalid TOTP code');
+    }
+
+    const token = jwt.sign({ username: user.username, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
+
+    return { token, user };
   },
   
 };
@@ -213,6 +313,7 @@ app.use(
     schema,
     rootValue: root,
     graphiql: true,
+    context: (req) => ({ user: req.user }),
   })
 );
 
