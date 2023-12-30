@@ -11,7 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import QRCode from 'qrcode.react'; // Import the QR code library
 import Modal from 'react-modal';
 import  './modalstyles.css';
-import { QrReader } from 'react-qr-reader';
+//import { QrReader } from 'react-qr-reader';
 
 const REGISTER_USER = gql`
   mutation Register($username: String!, $email: String!, $password: String!, $confirmPassword: String!) {
@@ -74,9 +74,10 @@ const RegisterUser = () => {
       // If the user has a TOTP secret, show the QR code
       if (user && user.totpSecret) {
         setQRCodeValue(`otpauth://totp/Middle-Man:${username}?secret=${user.totpSecret}&issuer=Middle-Man`);
-        toggleQRCodeScanner();
         setShowQRCode(true);
         toggleModal();
+       // toggleQRCodeScanner();
+
       }
 
       localStorage.setItem('token', token);
@@ -131,7 +132,7 @@ const RegisterUser = () => {
         </Backdrop>
 
         {/* QR code scanner modal */}
-             <Modal
+             {/* <Modal
           isOpen={qrCodeScannerOpen}
           onRequestClose={toggleQRCodeScanner}
           contentLabel="QR Code Scanner"
@@ -147,7 +148,7 @@ const RegisterUser = () => {
               }
             }}
           />
-        </Modal>
+        </Modal> */}
 
 
 
