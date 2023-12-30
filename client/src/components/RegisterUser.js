@@ -81,7 +81,7 @@ const RegisterUser = () => {
       }
 
       localStorage.setItem('token', token);
-      alert("user Registered successfully! Scan the QR code using your authenticator app and sign in with the link below");
+      alert("user registered successfully! Set up 2FA by scanning the QR code that will be displayed to you");
       console.log('User registered successfully!', user);
     } catch (error) {
       alert(error.message);
