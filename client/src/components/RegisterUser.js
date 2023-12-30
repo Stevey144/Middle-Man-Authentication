@@ -140,6 +140,8 @@ const RegisterUser = () => {
 
 
         </div>
+        <br></br>
+        <br></br>
         <button onClick={toggleModal} className='close-modal'>Close modal</button>
       </Modal>
 
