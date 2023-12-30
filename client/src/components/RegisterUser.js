@@ -131,27 +131,6 @@ const RegisterUser = () => {
           <CircularProgress color="inherit" />
         </Backdrop>
 
-        {/* QR code scanner modal */}
-             {/* <Modal
-          isOpen={qrCodeScannerOpen}
-          onRequestClose={toggleQRCodeScanner}
-          contentLabel="QR Code Scanner"
-        >
-          <QrReader
-            delay={300}
-            onError={(err) => console.error('QR Code Scanner Error:', err)}
-            onScan={(result) => {
-              if (result) {
-                setQRCodeValue(result);
-                toggleQRCodeScanner();
-                toggleModal();
-              }
-            }}
-          />
-        </Modal> */}
-
-
-
         <Modal
             isOpen={modalOpen}
             onRequestClose={toggleModal}
@@ -164,17 +143,18 @@ const RegisterUser = () => {
         <div class="qrblock">
 
         {showQRCode && (
-          <div>
+          <div >
             <p>Scan the QR code using your authenticator app:</p>
+            <div className="show-code">
             <QRCode value={qrCodeValue} className="qr" />
+            </div>
           </div>
         )}
-
 
         </div>
         <br></br>
         <br></br>
-        <button onClick={toggleModal} className='close-modal'>Close modal</button>
+        <Button type="submit" onClick={toggleModal} className='close-modal'>Close modal</Button>
       </Modal>
 
 
