@@ -50,13 +50,13 @@ const uri = process.env.MONGODB;
 const JWT_SECRET =  process.env.JWT_SECRET;
 
 //Create a Nodemailer transporter
-const transporter = nodemailer.createTransport({
-  service: process.env.EMAIL_SERVICE,
-  auth: {
-    user: process.env.EMAIL_USERNAME,
-    pass: process.env.EMAIL_PASSWORD,
-  },
-});
+// const transporter = nodemailer.createTransport({
+//   service: process.env.EMAIL_SERVICE,
+//   auth: {
+//     user: process.env.EMAIL_USERNAME,
+//     pass: process.env.EMAIL_PASSWORD,
+//   },
+// });
 
 
 // MongoDB connection
@@ -236,15 +236,15 @@ const root = {
       // Create and return a JWT token on successful login
       const token = jwt.sign({ username, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
 
-        // Send email notification
-        const emailOptions = {
-          from: process.env.EMAIL_USERNAME,
-          to: user.email,
-          subject: 'Successful Login Notification',
-          text: `Dear ${user.username},\n\nYou have successfully logged in at ${new Date()}.`,
-        };
+        // // Send email notification
+        // const emailOptions = {
+        //   from: process.env.EMAIL_USERNAME,
+        //   to: user.email,
+        //   subject: 'Successful Login Notification',
+        //   text: `Dear ${user.username},\n\nYou have successfully logged in at ${new Date()}.`,
+        // };
   
-        await transporter.sendMail(emailOptions);
+        // await transporter.sendMail(emailOptions);
   
       return { token, user, code };
     } catch (error) {

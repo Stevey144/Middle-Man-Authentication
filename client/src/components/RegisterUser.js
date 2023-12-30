@@ -11,6 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import QRCode from 'qrcode.react'; // Import the QR code library
 import Modal from 'react-modal';
 import  './modalstyles.css';
+import { QrReader } from 'react-qr-reader';
 
 const REGISTER_USER = gql`
   mutation Register($username: String!, $email: String!, $password: String!, $confirmPassword: String!) {
@@ -39,9 +40,16 @@ const RegisterUser = () => {
     
   const [modalOpen, setmodalOpen] = useState(false);
 
+  const [qrCodeScannerOpen, setQRCodeScannerOpen] = useState(false);
+
   const toggleModal = () =>{
     setmodalOpen(!modalOpen);
   }
+
+  const toggleQRCodeScanner = () => {
+    setQRCodeScannerOpen(!qrCodeScannerOpen);
+  };
+
 
   const handleOpen = () => {
     setOpen(true);
@@ -66,6 +74,7 @@ const RegisterUser = () => {
       // If the user has a TOTP secret, show the QR code
       if (user && user.totpSecret) {
         setQRCodeValue(`otpauth://totp/Middle-Man:${username}?secret=${user.totpSecret}&issuer=Middle-Man`);
+        toggleQRCodeScanner();
         setShowQRCode(true);
         toggleModal();
       }
@@ -121,6 +130,27 @@ const RegisterUser = () => {
           <CircularProgress color="inherit" />
         </Backdrop>
 
+        {/* QR code scanner modal */}
+             <Modal
+          isOpen={qrCodeScannerOpen}
+          onRequestClose={toggleQRCodeScanner}
+          contentLabel="QR Code Scanner"
+        >
+          <QrReader
+            delay={300}
+            onError={(err) => console.error('QR Code Scanner Error:', err)}
+            onScan={(result) => {
+              if (result) {
+                setQRCodeValue(result);
+                toggleQRCodeScanner();
+                toggleModal();
+              }
+            }}
+          />
+        </Modal>
+
+
+
         <Modal
             isOpen={modalOpen}
             onRequestClose={toggleModal}
@@ -129,6 +159,7 @@ const RegisterUser = () => {
             overlayClassName="myoverlay"
             closeTimeoutMS={500}
          >
+          
         <div class="qrblock">
 
         {showQRCode && (

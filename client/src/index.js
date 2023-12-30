@@ -7,7 +7,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { BrowserRouter } from 'react-router-dom'
 
 const client = new ApolloClient({
-  uri: 'https://middle-man-authenticator-a3e8e4fa764e.herokuapp.com/graphql', 
+ uri: 'https://middle-man-authenticator-a3e8e4fa764e.herokuapp.com/graphql', 
   //uri: 'http://localhost:3001/graphql',// Replace with your server URL
   cache: new InMemoryCache(),
 });
