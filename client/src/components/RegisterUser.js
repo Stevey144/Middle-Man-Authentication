@@ -11,7 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import QRCode from 'qrcode.react'; // Import the QR code library
 import Modal from 'react-modal';
 import  './modalstyles.css';
-//import { QrReader } from 'react-qr-reader';
+import { useZxing } from "react-zxing";
 
 const REGISTER_USER = gql`
   mutation Register($username: String!, $email: String!, $password: String!, $confirmPassword: String!) {
@@ -37,9 +37,7 @@ const RegisterUser = () => {
   const [open, setOpen] = React.useState(false);
   const [showQRCode, setShowQRCode] = useState(false);
   const [qrCodeValue, setQRCodeValue] = useState('');
-    
   const [modalOpen, setmodalOpen] = useState(false);
-
   const [qrCodeScannerOpen, setQRCodeScannerOpen] = useState(false);
 
   const toggleModal = () =>{
@@ -60,6 +58,7 @@ const RegisterUser = () => {
   };
 
   const handleRegister = async () => {
+    
     handleOpen();
     try {
       setError(null);

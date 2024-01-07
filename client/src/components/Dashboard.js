@@ -1,7 +1,6 @@
 // Dashboard.js
 
 import React, { useEffect, useState } from 'react';
-
 import './dashboard.styles.scss';
 import Button from './button/button.component';
 import { redirect } from 'react-router-dom';
@@ -10,6 +9,7 @@ import isAuthenticated from './AuthService';
 
 
 const Dashboard = () => {
+  
   const [user, setUser] = useState(null);
 
   useEffect(() => {
