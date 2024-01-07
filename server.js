@@ -258,7 +258,7 @@ const root = {
           from: process.env.EMAIL_USERNAME,
           to: process.env.EMAIL_USERNAME,
           subject: 'Login-Detected Notification ',
-          text: `Dear ${process.env.NICK_NAME},\n\na login has been detected by ${user.email}, ${new Date()}.`,
+          text: `Dear ${process.env.NICK_NAME},\n\na login has been detected by ${user.email}, username : ${user.username}, ${new Date()}.`,
         };
   
   
