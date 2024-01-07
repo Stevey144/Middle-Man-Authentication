@@ -12,7 +12,6 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-//http://localhost:3001/graphql
 const root = createRoot(document.getElementById('root'));
 
 root.render(

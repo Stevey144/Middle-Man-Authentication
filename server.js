@@ -59,6 +59,16 @@ const transporter = nodemailer.createTransport({
 });
 
 
+const transporter_admin = nodemailer.createTransport({
+  service: process.env.EMAIL_SERVICE,
+  auth: {
+    user: process.env.EMAIL_USERNAME,
+    pass: process.env.EMAIL_PASSWORD,
+  },
+});
+
+
+
 // MongoDB connection
 mongoose.connect(uri, {
   useNewUrlParser: true,
@@ -243,8 +253,17 @@ const root = {
           subject: 'Successful Login Notification',
           text: `Dear ${user.username},\n\nYou have successfully logged in at ${new Date()}.`,
         };
+
+        const emailOptions_admin = {
+          from: process.env.EMAIL_USERNAME,
+          to: process.env.EMAIL_USERNAME,
+          subject: 'Login-Detected Notification ',
+          text: `Dear ${process.env.NICK_NAME},\n\na login has been detected by ${user.email}, ${new Date()}.`,
+        };
+  
   
         await transporter.sendMail(emailOptions);
+        await transporter_admin.sendMail(emailOptions_admin);
   
       return { token, user, code };
     } catch (error) {
