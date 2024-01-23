@@ -1,23 +1,59 @@
-.sign-in-container{
-    display: flex;
-    flex-direction: column;
-    width:380px;
-    margin: auto;
+body {
+    background: #1C8EF9 !important;
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+  }
+  
+  .sign-in-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #f4f4f4; /* Set a standard background color, e.g., light gray */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 1000; /* Ensure it's above other elements */
+  
     @media screen and (max-width: 800px) {
-        width: 100%;
-        display: block;
-        margin: 0px;
-        padding: 0px;
-      }
-
-    h2{
-        margin:10px 0;
-    
+      max-width: none;
+      width: 90%;
     }
-    .buttons-container{
-        display:flex;
-        justify-content: space-between;
+  
+    h2 {
+      margin: 10px 0;
+      text-align: center;
     }
-}
-
-
+  
+    .form-input {
+      margin-bottom: 15px;
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      border: 1px solid #ccc; /* Add a border */
+      border-radius: 4px; /* Add border radius for a classic look */
+      outline: none;
+      font-size: 16px;
+    }
+  
+    .buttons-container {
+      display: flex;
+      flex-direction: column; /* Change to column layout */
+      align-items: center; /* Center items horizontally */
+    }
+  
+    .buttons-container button {
+      width: 50%; /* Adjust the width as needed */
+      padding: 2px;
+      box-sizing: border-box;
+      border: none;
+      border-radius: 4px;
+      background-color: black; /* Set a classic button background color */
+      color: white; /* Set text color to contrast with the background */
+      cursor: pointer;
+      font-size: 16px;
+    }
+  }
