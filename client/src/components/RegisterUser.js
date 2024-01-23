@@ -1,9 +1,8 @@
-// AuthForms.js
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect   } from 'react';
 import { useMutation } from '@apollo/client';
 import { gql } from 'graphql-tag';
 import FormInput from './form-input/form-input.component';
-import './sign-up-form.styles.scss'
+import './sign-up-form.styles.scss';
 import Button from './button/button.component';
 import { Outlet, Link } from "react-router-dom";
 import Backdrop from '@mui/material/Backdrop';
@@ -11,7 +10,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import QRCode from 'qrcode.react'; // Import the QR code library
 import Modal from 'react-modal';
 import  './modalstyles.css';
-import { useZxing } from "react-zxing";
+import jsQR from 'jsqr';
 
 const REGISTER_USER = gql`
   mutation Register($username: String!, $email: String!, $password: String!, $confirmPassword: String!) {
@@ -38,16 +37,11 @@ const RegisterUser = () => {
   const [showQRCode, setShowQRCode] = useState(false);
   const [qrCodeValue, setQRCodeValue] = useState('');
   const [modalOpen, setmodalOpen] = useState(false);
-  const [qrCodeScannerOpen, setQRCodeScannerOpen] = useState(false);
+  const [isQRCodeScannerVisible, setIsQRCodeScannerVisible] = useState(false);
 
   const toggleModal = () =>{
     setmodalOpen(!modalOpen);
   }
-
-  const toggleQRCodeScanner = () => {
-    setQRCodeScannerOpen(!qrCodeScannerOpen);
-  };
-
 
   const handleOpen = () => {
     setOpen(true);
@@ -71,12 +65,11 @@ const RegisterUser = () => {
       const { token, user } = response.data.register;
 
       // If the user has a TOTP secret, show the QR code
-      if (user && user.totpSecret) {
+      if (user && user.totpSecret){
         setQRCodeValue(`otpauth://totp/Middle-Man:${username}?secret=${user.totpSecret}&issuer=Middle-Man`);
         setShowQRCode(true);
+        setIsQRCodeScannerVisible(true); // Display the QR code scanner
         toggleModal();
-       // toggleQRCodeScanner();
-
       }
 
       localStorage.setItem('token', token);
@@ -92,7 +85,6 @@ const RegisterUser = () => {
 
   return (
     <div className="sign-up-container">
-      <h1 style={{ color: "green" }}>Authenticator App</h1>
       <h2>Don't have an account?</h2>
       <span>sign up with your email and password</span>
       <div>
@@ -141,24 +133,20 @@ const RegisterUser = () => {
           
         <div class="qrblock">
 
-        {showQRCode && (
+        {showQRCode && isQRCodeScannerVisible && (
           <div >
-            <p>Scan the QR code using your authenticator app:</p>
-            <div className="show-code">
-            <QRCode value={qrCodeValue} className="qr" />
-            </div>
+              <p>Scan the QR code using your authenticator app:</p>
+              <div className="show-code">
+              <QRCode value={qrCodeValue} className="qr" /> 
+              </div>
           </div>
         )}
-
         </div>
         <br></br>
         <br></br>
         <Button type="submit" onClick={toggleModal} className='close-modal'>Close modal</Button>
-      </Modal>
-
-
-
       
+      </Modal>
         <h4>Already have an account ? <Link to="/sign-In" style={{ textDecoration: "none" }}>Sign In</Link> </h4>
         <Outlet />
       </div>
