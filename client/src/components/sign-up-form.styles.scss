@@ -68,13 +68,14 @@ body {
   }
 
   .buttons-container button {
-    width: 80%;
-    padding: 10px;
-    box-sizing: border-box;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    cursor: pointer;
-    font-size: 16px;
+      width: 50%; /* Adjust the width as needed */
+      padding: 2px;
+      box-sizing: border-box;
+      border: none;
+      border-radius: 4px;
+      background-color: black; /* Set a classic button background color */
+      color: white; /* Set text color to contrast with the background */
+      cursor: pointer;
+      font-size: 16px;
   }
 }
