@@ -3,79 +3,79 @@
 
 // Apply the gradient background to the body
 body {
- background: #1C8EF9 !important;
-  margin: 0;
-  padding: 0;
-  font-family: 'Arial', sans-serif;
-}
-
-// Styles for the sign-up container
-.sign-up-container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #f4f4f4;
-  padding: 10px; /* Adjust the padding to reduce container height */
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-  width: 100%;
-  box-sizing: border-box;
-  z-index: 1000;
-
-  @media screen and (max-width: 800px) {
-    max-width: none;
-    width: 90%;
-  }
-
-  h1 {
-    color: green;
-    text-align: center;
-  }
-
-  h2 {
-    margin: 5px 0; /* Reduce margin to decrease space between elements */
-    text-align: center;
-  }
-
-  span {
-    display: block;
-    text-align: center;
-  }
-
-  p {
-    color: red;
-    text-align: center;
-  }
-
-  .form-input {
-    margin-bottom: 5px; /* Reduce margin to decrease space between input fields */
-    width: 100%;
-    padding: 8px; /* Adjust padding to reduce input field height */
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    outline: none;
-    font-size: 16px;
-  }
-
-  .buttons-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .buttons-container button {
-      width: 50%; /* Adjust the width as needed */
-      padding: 2px;
-      box-sizing: border-box;
-      border: none;
-      border-radius: 4px;
-      background-color: black; /* Set a classic button background color */
-      color: white; /* Set text color to contrast with the background */
-      cursor: pointer;
-      font-size: 16px;
-  }
-}
+    background: #1C8EF9 !important;
+     margin: 0;
+     padding: 0;
+     font-family: 'Arial', sans-serif;
+   }
+   
+   // Styles for the sign-up container
+   .sign-up-container {
+     position: fixed;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+     background: #f4f4f4;
+     padding: 10px; /* Adjust the padding to reduce container height */
+     border-radius: 8px;
+     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+     max-width: 400px;
+     width: 100%;
+     box-sizing: border-box;
+     z-index: 1000;
+   
+     @media screen and (max-width: 800px) {
+       max-width: none;
+       width: 90%;
+     }
+   
+     h1 {
+       color: green;
+       text-align: center;
+     }
+   
+     h2 {
+       margin: 5px 0; /* Reduce margin to decrease space between elements */
+       text-align: center;
+     }
+   
+     span {
+       display: block;
+       text-align: center;
+     }
+   
+     p {
+       color: red;
+       text-align: center;
+     }
+   
+     .form-input {
+       margin-bottom: 5px; /* Reduce margin to decrease space between input fields */
+       width: 100%;
+       padding: 8px; /* Adjust padding to reduce input field height */
+       box-sizing: border-box;
+       border: 1px solid #ccc;
+       border-radius: 4px;
+       outline: none;
+       font-size: 16px;
+     }
+   
+     .buttons-container {
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+     }
+   
+     .buttons-container button {
+         width: 50%; /* Adjust the width as needed */
+         padding: 2px;
+         box-sizing: border-box;
+         border: none;
+         border-radius: 4px;
+         background-color: black; /* Set a classic button background color */
+         color: white; /* Set text color to contrast with the background */
+         cursor: pointer;
+         font-size: 16px;
+     }
+   }
+   

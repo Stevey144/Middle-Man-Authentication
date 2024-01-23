@@ -37,9 +37,11 @@ const RegisterUser = () => {
   const [qrCodeValue, setQRCodeValue] = useState('');
   const [modalOpen, setmodalOpen] = useState(false);
   const [isQRCodeScannerVisible, setIsQRCodeScannerVisible] = useState(false);
+  const[getSecretKey, setSecretKey] = useState('');
 
   const toggleModal = () =>{
     setmodalOpen(!modalOpen);
+
   }
 
   const handleOpen = () => {
@@ -62,6 +64,11 @@ const RegisterUser = () => {
       handleClose();
 
       const { token, user } = response.data.register;
+       // Clear form fields
+      setUsername('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
 
       // If the user has a TOTP secret, show the QR code
       if (user && user.totpSecret){
@@ -69,6 +76,7 @@ const RegisterUser = () => {
         setShowQRCode(true);
         setIsQRCodeScannerVisible(true); // Display the QR code scanner
         toggleModal();
+        setSecretKey(user.totpSecret)
       }
 
       localStorage.setItem('token', token);
@@ -83,16 +91,17 @@ const RegisterUser = () => {
   };
 
   const handleCopyToClipboard = () => {
-    const textField = document.createElement('textarea');
-    textField.innerText = qrCodeValue;
-    document.body.appendChild(textField);
-    textField.select();
-    document.execCommand('copy');
-    document.body.removeChild(textField);
-  
-    // Optionally, provide feedback to the user (e.g., a toast message)
-    alert('QR code key copied to clipboard!');
-  };
+  const textField = document.createElement('textarea');
+  textField.innerText = getSecretKey;
+  document.body.appendChild(textField);
+  textField.select();
+  document.execCommand('copy');
+  document.body.removeChild(textField);
+
+
+  // Optionally, provide feedback to the user (e.g., a toast message)
+  alert('QR code key copied to clipboard!');
+};
 
   return (
     <div className="sign-up-container">
