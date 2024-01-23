@@ -112,15 +112,16 @@ const RegisterUser = () => {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
-        <Button type="submit" onClick={handleRegister}>Sign Up</Button>
-        <Backdrop
-          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={open}
-          onClick={handleClose}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
-
+       <div className="buttons-container">
+            <Button type="submit" onClick={handleRegister}>Sign Up</Button>
+            <Backdrop
+              sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open={open}
+              onClick={handleClose}
+            >
+              <CircularProgress color="inherit" />
+            </Backdrop>
+        </div>
         <Modal
             isOpen={modalOpen}
             onRequestClose={toggleModal}
