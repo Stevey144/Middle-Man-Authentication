@@ -35,6 +35,7 @@ const Dashboard = () => {
   };
 
   return (
+    <div className="content">
     <div className="dashboard">
       {user ? (
         <div  >
@@ -50,6 +51,8 @@ const Dashboard = () => {
         <Button type="submit" onClick={handleLogOut}>Log Out</Button>
          </div>
     </div>
+    </div>
+
   );
 };
 
