@@ -82,6 +82,18 @@ const RegisterUser = () => {
     }
   };
 
+  const handleCopyToClipboard = () => {
+    const textField = document.createElement('textarea');
+    textField.innerText = qrCodeValue;
+    document.body.appendChild(textField);
+    textField.select();
+    document.execCommand('copy');
+    document.body.removeChild(textField);
+  
+    // Optionally, provide feedback to the user (e.g., a toast message)
+    alert('QR code key copied to clipboard!');
+  };
+
   return (
     <div className="sign-up-container">
       <h2>Don't have an account?</h2>
@@ -137,7 +149,7 @@ const RegisterUser = () => {
           <div >
               <p>Scan the QR code using your authenticator app:</p>
               <div className="show-code">
-              <QRCode value={qrCodeValue} className="qr" /> 
+              <QRCode value={qrCodeValue} className="qr" onClick={handleCopyToClipboard} /> 
               </div>
           </div>
         )}
