@@ -78,4 +78,17 @@ body {
          font-size: 16px;
      }
    }
+
+   .sleekcode_Logo{
+    width: 150px !important;
+    height: 150px !important;
+    border-radius: 100%;
+    float: left;
+
+    @media screen and (min-width: 600px) {
+     width:100px !important;
+     height: 100px !important;
+     margin-top: 0;
+    }
+  }
    

@@ -12,9 +12,7 @@ function App() {
           <Route path="/" element={<RegisterUser />} />
           <Route path="sign-In" element={<SignInForm />} />
           <Route path="sign-up" element={<RegisterUser />} />
-          {/* <Route path="/dashboard" component={Dashboard}  /> */}
           <Route path="dashboard" element={<Dashboard />} />
-
        </Routes>
     </div>
 

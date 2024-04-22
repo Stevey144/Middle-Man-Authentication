@@ -1,4 +1,3 @@
-// AuthForms.js
 import React, { useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { gql } from 'graphql-tag';
@@ -97,7 +96,7 @@ const SignInForm = () => {
   return (
     <div className="sign-in-container">
       <h2>Already have an account?</h2>
-      <span>sign in with your username, password and OTP</span>
+      <span>sign in with your username and password</span>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <form>
         <FormInput

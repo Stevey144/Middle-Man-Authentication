@@ -235,8 +235,6 @@ const root = {
         }
       }
 
-
-  
       // Reset loginAttempts on successful login
       user.loginAttempts = 0;
       user.locked = false;
@@ -246,7 +244,7 @@ const root = {
       // Create and return a JWT token on successful login
       const token = jwt.sign({ username, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
 
-        // Send email notification
+        // // Send email notification
         const emailOptions = {
           from: process.env.EMAIL_USERNAME,
           to: user.email,

@@ -10,6 +10,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import QRCode from 'qrcode.react'; // Import the QR code library
 import Modal from 'react-modal';
 import  './modalstyles.css';
+import myImage from '../assets/SleekCodes.jpg';
 
 const REGISTER_USER = gql`
   mutation Register($username: String!, $email: String!, $password: String!, $confirmPassword: String!) {
@@ -104,6 +105,10 @@ const RegisterUser = () => {
 };
 
   return (
+    <div>
+
+      <img src={myImage} className='sleekcode_Logo' alt='sleekcode logo' />
+
     <div className="sign-up-container">
       <h2>Don't have an account?</h2>
       <span>sign up with your email and password</span>
@@ -171,6 +176,7 @@ const RegisterUser = () => {
         <h4>Already have an account ? <Link to="/sign-In" style={{ textDecoration: "none" }}>Sign In</Link> </h4>
         <Outlet />
       </div>
+    </div>
     </div>
   );
 };

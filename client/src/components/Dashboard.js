@@ -5,6 +5,7 @@ import './dashboard.styles.scss';
 import Button from './button/button.component';
 import { redirect } from 'react-router-dom';
 import isAuthenticated from './AuthService';
+import myImage from '../assets/SleekCodes.jpg';
 
 
 
@@ -36,6 +37,7 @@ const Dashboard = () => {
 
   return (
     <div className="content">
+         <img src={myImage} className='sleekcode_Logo' />
     <div className="dashboard">
       {user ? (
         <div  >
